@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chat + Code Editor Detector (Ace)</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <style>
+    :root{
+      --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#22d3ee;
+      --user:#1f2937; --ai:#111827;
+    }
+    body{margin:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    .wrap{max-width:900px;margin:24px auto;padding:0 16px}
+    .chat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
+    .msg{display:flex;gap:12px;margin:14px 0}
+    .avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700}
+    .bubble{flex:1;background:var(--panel);border:1px solid rgba(255,255,255,.08);padding:12px 14px;border-radius:14px}
+    .msg.user .bubble{background:var(--user)}
+    .role{font-size:12px;color:var(--muted);margin-bottom:6px}
+    .text{white-space:pre-wrap;line-height:1.5}
+
+    /* Code block container */
+    .codebox{margin:10px 0;border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;background:#0b1220}
+    .codebar{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#0a0f1d;border-bottom:1px solid rgba(255,255,255,.08)}
+    .lang{font-size:12px;color:var(--muted)}
+    .btns{display:flex;gap:6px}
+    .btn{background:#0f172a;border:1px solid rgba(255,255,255,.12);color:#cbd5e1;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:12px}
+    .btn:hover{border-color:var(--accent);color:#e6faff}
+    .editor{width:100%;height:260px}
+
+    .inputbar{display:flex;gap:8px;margin-top:16px}
+    .inputbar textarea{flex:1;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0b1220;color:#e5e7eb;padding:10px 12px;min-height:70px}
+    .send{background:var(--accent);border:none;color:#003341;font-weight:700;padding:10px 14px;border-radius:12px;cursor:pointer}
+    .muted{color:var(--muted);font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 style="margin:8px 0 16px;font-size:22px">Chat + Auto Code Editor (Ace)</h1>
+    <div class="muted">Any message containing a fenced block like <code>```lang ... ```</code> will render as a live editor.</div>
+
+    <div id="chat" class="chat"></div>
+
+    <div class="inputbar">
+      <textarea id="inp" placeholder="Type a message. Use ```python ...``` to send code"></textarea>
+      <button class="send" id="send">Send</button>
+    </div>
+  </div>
+
+  <!-- Ace Editor CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.6/ace.js" integrity="sha512-ZC9tE8pKqpBS1d68qc2d1k2oUOfl0qYzY8G5l3WqG3nYQk1i6J9eV9sYF2Jm4tH5S3Lr4rjKx0Hk8t6q9z7kdQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+    // --- Minimal language map for Ace modes
+    const ACE_MODE = {
+      'py':'python','python':'python',
+      'js':'javascript','javascript':'javascript','ts':'typescript','typescript':'typescript',
+      'php':'php','html':'html','css':'css','json':'json','sql':'sql','sh':'sh','bash':'sh',
+      'java':'java','c':'c_cpp','cpp':'c_cpp','c++':'c_cpp','go':'golang','rb':'ruby','ruby':'ruby'
+    };
+
+    const chatEl = document.getElementById('chat');
+
+    // Regex to find fenced code blocks: ```lang\n ... \n```
+    const fenceRe = /```(\w+)?\n([\s\S]*?)```/g;
+
+    function renderMessage({role, content}){
+      const msg = document.createElement('div');
+      msg.className = 'msg ' + (role === 'user' ? 'user' : 'ai');
+      msg.innerHTML = `
+        <div class="avatar" style="background:${role==='user'?'#0ea5e9':'#22c55e'}">${role==='user'?'U':'AI'}</div>
+        <div class="bubble">
+          <div class="role">${role==='user'?'You':'Assistant'}</div>
+          <div class="text"></div>
+        </div>`;
+      const textEl = msg.querySelector('.text');
+
+      // Split content by code fences while preserving both text and code segments
+      let lastIdx = 0; let match; const parts = [];
+      while ((match = fenceRe.exec(content)) !== null) {
+        if (match.index > lastIdx) {
+          parts.push({type:'text', value: content.slice(lastIdx, match.index)});
+        }
+        parts.push({type:'code', lang:(match[1]||'text').toLowerCase(), code: match[2]});
+        lastIdx = fenceRe.lastIndex;
+      }
+      if (lastIdx < content.length) parts.push({type:'text', value: content.slice(lastIdx)});
+
+      // Render segments
+      parts.forEach(seg => {
+        if (seg.type === 'text'){
+          const p = document.createElement('div');
+          p.className = 'seg-text';
+          p.textContent = seg.value.trim();
+          textEl.appendChild(p);
+        } else {
+          const box = document.createElement('div');
+          box.className = 'codebox';
+          const lang = ACE_MODE[seg.lang] || 'text';
+          box.innerHTML = `
+            <div class="codebar">
+              <div class="lang">${seg.lang || 'text'}</div>
+              <div class="btns">
+                <button class="btn copy">Copy</button>
+                <button class="btn edit">Edit</button>
+                <button class="btn dl">Download</button>
+              </div>
+            </div>
+            <div class="editor"></div>`;
+          textEl.appendChild(box);
+
+          const ed = ace.edit(box.querySelector('.editor'));
+          ed.session.setMode('ace/mode/' + lang);
+          ed.setTheme('ace/theme/one_dark');
+          ed.setValue(seg.code.replace(/^[\n\r]+|[\n\r]+$/g, ''), -1);
+          ed.setReadOnly(true);
+          ed.session.setUseWrapMode(true);
+
+          // Buttons
+          const btnCopy = box.querySelector('.copy');
+          btnCopy.addEventListener('click', async () => {
+            await navigator.clipboard.writeText(ed.getValue());
+            btnCopy.textContent = 'Copied';
+            setTimeout(()=> btnCopy.textContent = 'Copy', 1200);
+          });
+
+          const btnEdit = box.querySelector('.edit');
+          let editable = false;
+          btnEdit.addEventListener('click', () => {
+            editable = !editable;
+            ed.setReadOnly(!editable);
+            btnEdit.textContent = editable ? 'Lock' : 'Edit';
+          });
+
+          const btnDl = box.querySelector('.dl');
+          btnDl.addEventListener('click', () => {
+            const blob = new Blob([ed.getValue()], {type:'text/plain'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `snippet.${seg.lang || 'txt'}`;
+            a.click();
+            URL.revokeObjectURL(a.href);
+          });
+        }
+      });
+
+      chatEl.appendChild(msg);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+
+    // Public API: call this when your PHP fetches a new message
+    window.addMessageFromServer = function(role, content){
+      renderMessage({role, content});
+    }
+
+    // --- Demo messages ---
+    renderMessage({
+      role: 'user',
+      content: 'Naweza kupata example ya Python?\n\n```python\nimport math\nprint(math.sqrt(49))\n```\nAsante!'
+    });
+    renderMessage({
+      role: 'assistant',
+      content: 'Hii inarudisha 7. Pia unaweza kutumia JavaScript:\n\n```js\nconst x = 49;\nconsole.log(Math.sqrt(x));\n```'
+    });
+
+    // Send box (demo; replace with your AJAX)
+    document.getElementById('send').addEventListener('click', () => {
+      const val = document.getElementById('inp').value;
+      if(!val.trim()) return;
+      renderMessage({role:'user', content: val});
+      document.getElementById('inp').value='';
+    });
+  </script>
+</body>
+</html>

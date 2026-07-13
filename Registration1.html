@@ -1,0 +1,423 @@
+<html>
+<head>
+<title>semister registration form</title>
+<style>
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body{
+background-color: white;
+font-style: normal;
+}
+a
+{
+text-decoration: none;
+color: black;
+}
+table{
+border-collapse: separate;
+border-spacing: 0 10px;
+}
+#move-on{
+background-color: orange;
+font-weight: bold;
+padding: 10px;
+border-radius: 10px;
+}
+#move-on:hover{
+background-color: yellow;
+padding: 10px;
+border-radius: 10px;
+font-weight: bold;
+}
+input{
+border-radius: 4px;
+}
+.my-form{
+background-color: #FFF5EE;
+padding: 30px;
+border-radius: 10px;
+box-shadow: 5px 5px 9px 3px grey;
+width: 50%;
+height: 100%;
+}
+form{
+text align: center;
+}
+.nav-bar{
+display: flex;
+padding: 10px 20px;
+border-radius: 4px;
+background-color: brown;
+align-items: center;
+justify-content: space-between;
+position: relative;
+}
+.hamburger{
+display: flex;
+flex-direction: column;
+justify-content: center;
+cursor: pointer;
+}
+.bar{
+width: 25px;
+height: 3px;
+background-color: white;
+margin: 3px 0;
+border-radius: 2px;
+}
+.title{
+position: absolute;
+left:100%;
+transform: traslatex(-50%);
+font-size: 20px;
+font-weight: bold;
+}
+.rigt-section{
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.search-box input{
+padding: 6px 12px;
+border-radius: 4px;
+border: none;
+}
+.help{
+padding: 6px 12px;
+background-color: orange;
+color: 007bff;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+font-weight: bold;
+}
+.help:hover{
+background-color: blue;
+}
+#flist{
+display: flex;
+gap: 460px;
+}
+#jlist{
+display: flex;
+gap: 20px;
+}
+
+li{
+list-style: none;
+
+}
+tr{
+gap: 30px;
+}
+</style>
+</head>
+<body>
+<div class= "nav-bar">
+<ul id="flist">
+<li>
+<div class="hamburger">
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+</div>
+</li>
+<li>
+<div>
+<p><h1><i>semister registration</i></h1></p>
+</div>
+</li></ul>
+<ul id="jlist">
+<li>
+<div class="search-section">
+<div class="search-box">
+<input type="text" placeholder="search">
+</div></div></li>
+<li>
+<button class="help" onclick="window.location.href='help.html'">help?</botton>
+</li></ul>
+</div>
+<center><div class="my-form">
+<center><form id="my-form" onsubmit="storeData(event)">
+<table>
+<tr>
+<td>Faculty:</td><td><input list="faculty" id="faculty" name="faculty"required>
+<datalist id="faculty">
+<option value="choice"></option>
+<option value="Faculty of computer managment and social science"></option>
+<option value="Faculty of medicine and pharmaceutical science"></option>
+<option value="Faculty of law">eaggkhjfflith</option>
+<option value="Faculty of education"></option>
+</datalist></td>
+</tr>
+<tr>
+<td>Surname:</td><td><input type="text" name="name1" id="surname"required></td>
+</tr>
+<tr>
+<td>Other name :</td><td><input type="text" name="name2" id="others"required></td>
+</tr>
+<tr>
+<td>Registration no :</td><td><input type="text" name="reg no" id="reg_no"required></td>
+</tr>
+<tr>
+<td>Current year :</td><td><input type="text" name="year" id="year"required></td>
+</tr>
+<tr>
+<td>Current semister :</td><td><input type="text" name="semister" id="semester"required></td>
+</tr>
+<tr>
+<td><label for="gender">Select Gender : </label></td>
+<td><input type="radio" id="male" name="gender" value="male"required>
+<label for="male">Male</label>
+<input type="radio" id="female" name="gender" value="male"required>
+<label for="female">Female</label></td>
+</tr>
+<tr>
+<td>Date of birth:</td><td><input type="date" name="DOB" id="date"required></td>
+</tr>
+<tr>
+<td><label for="Nationality">Nationality:</label></td>
+ <td> <input list="states" id="nationality" name="nationality"required>
+<datalist id="states">
+      <option value="">--Select Nationality--</option>
+      <option value="Afghan">Afghan</option>
+      <option value="Albanian">Albanian</option>
+      <option value="Algerian">Algerian</option>
+      <option value="American">American</option>
+      <option value="Andorran">Andorran</option>
+      <option value="Angolan">Angolan</option>
+      <option value="Antiguan">Antiguan</option>
+      <option value="Argentine">Argentine</option>
+      <option value="Armenian">Armenian</option>
+      <option value="Australian">Australian</option>
+      <option value="Austrian">Austrian</option>
+      <option value="Azerbaijani">Azerbaijani</option>
+      <option value="Bahamian">Bahamian</option>
+      <option value="Bahraini">Bahraini</option>
+      <option value="Bangladeshi">Bangladeshi</option>
+      <option value="Barbadian">Barbadian</option>
+      <option value="Belarusian">Belarusian</option>
+      <option value="Belgian">Belgian</option>
+      <option value="Belizean">Belizean</option>
+      <option value="Beninese">Beninese</option>
+      <option value="Bhutanese">Bhutanese</option>
+      <option value="Bolivian">Bolivian</option>
+      <option value="Bosnian">Bosnian</option>
+      <option value="Botswanan">Botswanan</option>
+      <option value="Brazilian">Brazilian</option>
+      <option value="Bruneian">Bruneian</option>
+      <option value="Bulgarian">Bulgarian</option>
+      <option value="Burkinabe">Burkinabe</option>
+      <option value="Burmese">Burmese</option>
+      <option value="Burundian">Burundian</option>
+      <option value="Cabo Verdean">Cabo Verdean</option>
+      <option value="Cambodian">Cambodian</option>
+      <option value="Cameroonian">Cameroonian</option>
+      <option value="Canadian">Canadian</option>
+      <option value="Central African">Central African</option>
+      <option value="Chadian">Chadian</option>
+      <option value="Chilean">Chilean</option>
+      <option value="Chinese">Chinese</option>
+      <option value="Colombian">Colombian</option>
+      <option value="Comoran">Comoran</option>
+      <option value="Congolese">Congolese</option>
+      <option value="Costa Rican">Costa Rican</option>
+      <option value="Croatian">Croatian</option>
+      <option value="Cuban">Cuban</option>
+      <option value="Cypriot">Cypriot</option>
+      <option value="Czech">Czech</option>
+      <option value="Danish">Danish</option>
+      <option value="Djiboutian">Djiboutian</option>
+      <option value="Dominican">Dominican</option>
+      <option value="Dutch">Dutch</option>
+      <option value="East Timorese">East Timorese</option>
+      <option value="Ecuadorean">Ecuadorean</option>
+      <option value="Egyptian">Egyptian</option>
+      <option value="Emirati">Emirati</option>
+      <option value="Equatorial Guinean">Equatorial Guinean</option>
+      <option value="Eritrean">Eritrean</option>
+      <option value="Estonian">Estonian</option>
+      <option value="Eswatini">Eswatini</option>
+      <option value="Ethiopian">Ethiopian</option>
+      <option value="Fijian">Fijian</option>
+      <option value="Finnish">Finnish</option>
+      <option value="French">French</option>
+      <option value="Gabonese">Gabonese</option>
+      <option value="Gambian">Gambian</option>
+      <option value="Georgian">Georgian</option>
+      <option value="German">German</option>
+      <option value="Ghanaian">Ghanaian</option>
+      <option value="Greek">Greek</option>
+      <option value="Grenadian">Grenadian</option>
+      <option value="Guatemalan">Guatemalan</option>
+      <option value="Guinean">Guinean</option>
+      <option value="Guinea-Bissauan">Guinea-Bissauan</option>
+      <option value="Guyanese">Guyanese</option>
+      <option value="Haitian">Haitian</option>
+      <option value="Honduran">Honduran</option>
+      <option value="Hungarian">Hungarian</option>
+      <option value="Icelandic">Icelandic</option>
+      <option value="Indian">Indian</option>
+      <option value="Indonesian">Indonesian</option>
+      <option value="Iranian">Iranian</option>
+      <option value="Iraqi">Iraqi</option>
+      <option value="Irish">Irish</option>
+      <option value="Israeli">Israeli</option>
+      <option value="Italian">Italian</option>
+      <option value="Ivorian">Ivorian</option>
+      <option value="Jamaican">Jamaican</option>
+      <option value="Japanese">Japanese</option>
+      <option value="Jordanian">Jordanian</option>
+      <option value="Kazakh">Kazakh</option>
+      <option value="Kenyan">Kenyan</option>
+      <option value="Kiribati">Kiribati</option>
+      <option value="Kuwaiti">Kuwaiti</option>
+      <option value="Kyrgyz">Kyrgyz</option>
+      <option value="Laotian">Laotian</option>
+      <option value="Latvian">Latvian</option>
+      <option value="Lebanese">Lebanese</option>
+      <option value="Liberian">Liberian</option>
+      <option value="Libyan">Libyan</option>
+      <option value="Liechtensteiner">Liechtensteiner</option>
+      <option value="Lithuanian">Lithuanian</option>
+      <option value="Luxembourger">Luxembourger</option>
+      <option value="Macedonian">Macedonian</option>
+      <option value="Malagasy">Malagasy</option>
+      <option value="Malawian">Malawian</option>
+      <option value="Malaysian">Malaysian</option>
+      <option value="Maldivian">Maldivian</option>
+      <option value="Malian">Malian</option>
+      <option value="Maltese">Maltese</option>
+      <option value="Marshallese">Marshallese</option>
+      <option value="Mauritanian">Mauritanian</option>
+      <option value="Mauritian">Mauritian</option>
+      <option value="Mexican">Mexican</option>
+      <option value="Micronesian">Micronesian</option>
+      <option value="Moldovan">Moldovan</option>
+      <option value="Monégasque">Monégasque</option>
+      <option value="Mongolian">Mongolian</option>
+      <option value="Montenegrin">Montenegrin</option>
+      <option value="Moroccan">Moroccan</option>
+      <option value="Mozambican">Mozambican</option>
+      <option value="Namibian">Namibian</option>
+      <option value="Nauruan">Nauruan</option>
+      <option value="Nepalese">Nepalese</option>
+      <option value="New Zealander">New Zealander</option>
+      <option value="Nicaraguan">Nicaraguan</option>
+      <option value="Nigerien">Nigerien</option>
+      <option value="Nigerian">Nigerian</option>
+      <option value="North Korean">North Korean</option>
+      <option value="Norwegian">Norwegian</option>
+      <option value="Omani">Omani</option>
+      <option value="Pakistani">Pakistani</option>
+      <option value="Palauan">Palauan</option>
+      <option value="Palestinian">Palestinian</option>
+      <option value="Panamanian">Panamanian</option>
+      <option value="Papua New Guinean">Papua New Guinean</option>
+      <option value="Paraguayan">Paraguayan</option>
+      <option value="Peruvian">Peruvian</option>
+      <option value="Philippine">Philippine</option>
+      <option value="Polish">Polish</option>
+      <option value="Portuguese">Portuguese</option>
+      <option value="Qatari">Qatari</option>
+      <option value="Romanian">Romanian</option>
+      <option value="Russian">Russian</option>
+      <option value="Rwandan">Rwandan</option>
+      <option value="Saint Lucian">Saint Lucian</option>
+      <option value="Salvadoran">Salvadoran</option>
+      <option value="Samoan">Samoan</option>
+      <option value="San Marinese">San Marinese</option>
+      <option value="Sao Tomean">Sao Tomean</option>
+      <option value="Saudi">Saudi</option>
+      <option value="Scottish">Scottish</option>
+      <option value="Senegalese">Senegalese</option>
+      <option value="Serbian">Serbian</option>
+      <option value="Seychellois">Seychellois</option>
+      <option value="Sierra Leonean">Sierra Leonean</option>
+      <option value="Singaporean">Singaporean</option>
+      <option value="Slovak">Slovak</option>
+      <option value="Slovenian">Slovenian</option>
+      <option value="Solomon Islander">Solomon Islander</option>
+      <option value="Somali">Somali</option>
+      <option value="South African">South African</option>
+      <option value="South Korean">South Korean</option>
+      <option value="South Sudanese">South Sudanese</option>
+      <option value="Spanish">Spanish</option>
+      <option value="Sri Lankan">Sri Lankan</option>
+      <option value="Sudanese">Sudanese</option>
+      <option value="Surinamese">Surinamese</option>
+      <option value="Swazi">Swazi</option>
+      <option value="Swedish">Swedish</option>
+      <option value="Swiss">Swiss</option>
+      <option value="Syrian">Syrian</option>
+      <option value="Taiwanese">Taiwanese</option>
+      <option value="Tajik">Tajik</option>
+      <option value="Tanzanian">Tanzanian</option>
+      <option value="Thai">Thai</option>
+      <option value="Togolese">Togolese</option>
+      <option value="Tongan">Tongan</option>
+      <option value="Trinidadian">Trinidadian</option>
+      <option value="Tunisian">Tunisian</option>
+      <option value="Turkish">Turkish</option>
+      <option value="Turkmen">Turkmen</option>
+      <option value="Tuvaluan">Tuvaluan</option>
+      <option value="Ugandan">Ugandan</option>
+      <option value="Ukrainian">Ukrainian</option>
+      <option value="Uruguayan">Uruguayan</option>
+      <option value="Uzbek">Uzbek</option>
+      <option value="Vanuatuan">Vanuatuan</option>
+      <option value="Venezuelan">Venezuelan</option>
+      <option value="Vietnamese">Vietnamese</option>
+      <option value="Welsh">Welsh</option>
+      <option value="Yemeni">Yemeni</option>
+      <option value="Zambian">Zambian</option>
+      <option value="Zimbabwean">Zimbabwean</option>
+</datalist>
+</td>
+</tr>
+<tr>
+<td>Academic year of admission:</td><td><input type="text" name="study year" id="adm_year"required></td>
+</tr>
+<tr>
+<td>Mode of entry:</td><td><input type="text" name="entry mode" placeholder="(DT or F)" id="Emode"required ></td>
+</tr>
+<tr>
+<td>Date of entry :</td><td><input type="date" name="entry date" id="Dmode"required></td>
+</tr>
+<tr>
+<td>Study session :</td><td><input type="text" name="session" placeholder="(DAY)" id="ss"required></td>
+</tr>
+<tr>
+<td>Course offered :</td><td><input type="text" name="course" placeholder="E.g:- BMLS,BPH & BCS" id="course"required></td>
+</tr>
+<tr>
+<td>Telephone no :</td><td><input type="text" name="tel_no" id="tel_no"required></td>
+</tr>
+<tr>
+<td>Email :</td><td><input type="email" name="mail" id="Email"required></td>
+</tr>
+<tr><td></td><td></td><td><button type="submit" id="move-on">Continue!</button></td>
+</tr>
+</form></center>
+</div></center>
+
+<script>
+ function storeData(event) {
+event.preventDefault();
+const form = document.getElementById('my-form');
+const formData=new FormData(form);
+
+for(const[key,value] of formData.entries()){
+localStorage.setItem(key,value);
+console.log('Stored:${key}=${value}');
+}
+
+window.location.href = 'jacky2.html';
+}
+</script>
+
+</body>
+</html>

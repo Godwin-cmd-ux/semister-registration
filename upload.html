@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="sw">
+<head>
+  <meta charset="utf-8">
+  <title>Upload via Icon</title>
+</head>
+<body>
+  <h2>Bonyeza icon kuchagua picha (simple)</h2>
+
+  <!-- Icon ( unaweza kubadilisha emoji au kutumia <img> ) -->
+  <button id="iconBtn" type="button" title="Chagua file">📁</button>
+
+  <!-- Hidden file input -->
+  <input type="file" id="fileInput" accept="image/*" style="display:none">
+
+  <!-- Message area -->
+  <div id="msg"></div>
+
+  <script>
+    const iconBtn = document.getElementById('iconBtn');
+    const fileInput = document.getElementById('fileInput');
+    const msg = document.getElementById('msg');
+
+    // Bonyeza icon -> fungua file chooser
+    iconBtn.addEventListener('click', () => fileInput.click());
+
+    // Wakati umechagua file, tutapakia kwa fetch
+    fileInput.addEventListener('change', () => {
+      if (!fileInput.files.length) return;
+      const file = fileInput.files[0];
+      msg.textContent = 'Nakupakia... (' + file.name + ')';
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      fetch('upload.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            msg.innerHTML = 'Imeupload ✅ — <a href="' + data.url + '" target="_blank">angalia hapa</a>';
+          } else {
+            msg.textContent = 'Tatizo: ' + data.error;
+          }
+        })
+        .catch(err => {
+          msg.textContent = 'Upload failed: ' + err.message;
+        });
+    });
+  </script>
+</body>
+</html>

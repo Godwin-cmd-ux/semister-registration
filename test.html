@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Upload Icon</title>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f8ff;
+    }
+
+.upload-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #007bff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+
+.upload-icon:hover {
+      transform: scale(1.1);
+      background: #0056b3;
+    }
+
+.upload-icon svg {
+      fill: white;
+      width: 40px;
+      height: 40px;
+    }
+
+    /* hide real file input */
+    input[type="file"] {
+      display: none;
+    }
+</style>
+</head>
+<body>
+<form action="upload.php" method="post" enctype="multipart/form-data">
+<label class="upload-icon">
+<input type="file" name="myfile" onchange="this.form.submit()">
+<!-- Upload icon (SVG) -->
+<svgxmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<path d="M5 20h14v-2H5m14-6h-4V3H9v9H5l7 7 7-7z"/>
+</svg>
+</label>
+</form>
+</body>
+</html>
